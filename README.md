@@ -21,12 +21,12 @@ Un jeu de tir simple créé avec p5.js pour un projet scolaire. L'objectif est d
 - **Apparition des ennemis :** Les ennemis apparaissent en fonction du nombre d'ennemis déjà tués, augmentant ainsi la difficulté.
 
 ## Détails techniques
-  **Les ennemis :**
-    -Il suive la mécanique des "flock" (appelé horde dans le code)
-    -En mode wander jusqu'a ce que le joueur soit assez proche puis switch en mode pursue.
-  **Le Joueur :**
-    -Les ennemis ET le joueur rebonissent sur les paroie, tandis que les projectile sont simplement supprimés lorsqu'ils sortent du cadre.
-    -Est limité par "ms (movement speed)", "hp (health points)".
-  **Les projectile :**
-    -Sont limités par "fire rate" et "bullet speed".
-    -Elimine UN SEUL ennemi par projectile.
+  - **Les ennemis :**
+    - Il suive la mécanique des "flock" (appelé horde dans le code)
+    - En mode wander jusqu'a ce que le joueur soit assez proche puis switch en mode pursue.
+  - **Le Joueur :**
+    - Les ennemis ET le joueur rebonissent sur les paroie, tandis que les projectile sont simplement supprimés lorsqu'ils sortent du cadre.
+    - Est limité par "ms (movement speed)", "hp (health points)".
+  - **Les projectile :**
+    - Sont limités par "fire rate" et "bullet speed".
+    - Elimine UN SEUL ennemi par projectile.
