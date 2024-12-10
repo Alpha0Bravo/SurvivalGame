@@ -19,7 +19,7 @@ function preload() {
   // player sprite sheet is loaded
   playerSpriteSheet = loadImage('assets/playerSpriteSheet.png');
   enemySprite = loadImage('assets/badGuy.png');
-  powerUpImage = loadImage('assets/power.png');
+  powerUpImage = loadImage('/assets/power.png');
 }
 
 function setup() {
