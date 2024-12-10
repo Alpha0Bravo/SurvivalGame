@@ -70,7 +70,7 @@ function draw() {
 
   let x = random(canvasWidth);
   let y = random(canvasHeight);
-  if(random(1) < 0.04 + 0.0005*enemiesKilled){
+  if(random(1) < 0.0036 + 0.0005*enemiesKilled){
     do {
       x = random(canvasWidth);
       y = random(canvasHeight);
