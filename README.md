@@ -19,8 +19,3 @@ Un jeu de tir simple créé avec p5.js pour un projet scolaire. L'objectif est d
 - **Tir de balles :** Cliquez pour tirer des balles qui détruisent les ennemis.
 - **Power-ups :** Des power-ups apparaissent de manière aléatoire et offrent des avantages lorsqu'ils sont collectés.
 - **Apparition des ennemis :** Les ennemis apparaissent en fonction du nombre d'ennemis déjà tués, augmentant ainsi la difficulté.
-
-## Crédits
-
-- **Créé par :** Votre nom (ou nom de l'équipe)
-- **Développé avec :** p5.js
