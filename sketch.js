@@ -23,7 +23,7 @@ function preload() {
 }
 
 function setup() {
-  labelNbEnemies = createP("Nombre de boids : " + enemies.length);
+  labelNbEnemies = createP("Nombre d'enemies : " + enemies.length);
   labelNbEnemies.style('color', 'blue');
   labelNbEnemies.position(10, 20);
 
