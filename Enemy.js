@@ -129,7 +129,7 @@ class Enemy {
       this.wanderTheta += random(-displaceRange, displaceRange);
     }
     
-    flock(enemies) {
+    horde(enemies) {
       let alignment = this.align(enemies);
       let cohesion = this.cohesion(enemies);
       let separation = this.separation(enemies);

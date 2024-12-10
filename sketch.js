@@ -111,7 +111,7 @@ function draw() {
     }
     else 
       enemies[i].wander();
-      enemies[i].flock(enemies);
+      enemies[i].horde(enemies);
     
     enemies[i].update();
     enemies[i].show();
