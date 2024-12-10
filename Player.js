@@ -5,14 +5,14 @@ class Player {
   */
     constructor (x, y, m, playerSprite) {
         this.playerImage = playerSprite;
-        // this.playerSpriteRight = playerSpriteRight;
-        // this.playerSpriteLeft = playerSpriteLeft;
+        this.hp = 100;
+        this.maxHp = 100;
         this.pos = createVector(x,y);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this.masse = m;
         this.scale = 0.3;
-        this.ms = 5.5 * this.scale;  // (ms = movement speed)
+        this.ms = 6 * this.scale;  // (ms = movement speed)
         
     }
 
@@ -91,6 +91,13 @@ class Player {
         pop();
   
         return;
+    }
+
+    isHit(enemy){
+      let w = this.playerImage.width / 2 * this.scale;
+      let h = this.playerImage.height / 2 * this.scale;
+      let hitbox = enemy.getHitbox();
+      return collideRectCircle(hitbox.x, hitbox.y, hitbox.width, hitbox.height, this.pos.x, this.pos.y, w, h)
     }
 
       edges() {

@@ -6,7 +6,7 @@ class Bullets {
 
         this.acc = p5.Vector.sub(target, this.pos);
 
-        this.speed = 0.5;
+        this.speed = bulletSpeed;
         this.acc.setMag(this.speed);
 
         this.r = 6; // Bullet size

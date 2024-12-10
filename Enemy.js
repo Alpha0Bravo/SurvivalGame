@@ -8,14 +8,15 @@ class Enemy {
       // accélération du véhicule
       this.acc = createVector(0, 0);
       // vitesse maximale du véhicule
-      this.maxSpeed = 2;
+      this.maxSpeed = 2 + enemiesKilled * 0.02;
       // force maximale appliquée au véhicule
-      this.maxForce = 0.7;
+      this.maxForce = 2;
       // rayon du véhicule
       this.r = 16;
       this.perceptionRadius = 180;
       this.wanderTheta = PI / 2;
       this.scale = 2;
+      this.fleeModifier = 5;
     }
   
     applyBehaviors(target) {
@@ -38,15 +39,15 @@ class Enemy {
       let prediction = mover.vel.copy();
       prediction.mult(15);
       target.add(prediction);
-      fill(0, 255, 0);
-      circle(target.x, target.y, 16);
+      // fill(0, 255, 0);
+      // circle(target.x, target.y, 16);
       return this.seek(target);
     }
   
     flee(target) {
       // inverse de seek ! REMPLACER LA LIGNE SUIVANTE POUR RENVOYER UNE FORCE INVERSE A CELLE RENVOYEE
       // PAR LE COMPORTEMENT SEEK
-      let force = this.seek(target).mult(-1);  
+      let force = this.seek(target).mult(-1*this.fleeModifier);  
       return force;
     }
   
@@ -78,9 +79,9 @@ class Enemy {
     
       pop();
 
-      noFill();
-      stroke(0, 255, 255);  // Cyan color for the hitbox outline
-      rect(this.getHitbox().x, this.getHitbox().y, this.getHitbox().width, this.getHitbox().height);
+      // noFill();
+      // stroke(0, 255, 255);  // Cyan color for the hitbox outline
+      // rect(this.getHitbox().x, this.getHitbox().y, this.getHitbox().width, this.getHitbox().height);
     }
 
     getHitbox() {
@@ -122,57 +123,115 @@ class Enemy {
 
       let displaceRange = 0.32;
       this.wanderTheta += random(-displaceRange, displaceRange);
-
-        // MR BUFFA VERSION AND EXPLANATION
-  
-      // point devant le véhicule, centre du cercle
-  
-      // let centreCercleDevant = this.vel.copy();
-      // centreCercleDevant.setMag(this.distanceCercle);
-      // centreCercleDevant.add(this.pos);
-  
-      // // On va s'occuper de calculer le point vert SUR LE CERCLE
-      // // il fait un angle wanderTheta avec le centre du cercle
-      // // l'angle final par rapport à l'axe des X c'est l'angle du vaisseau
-      // // + cet angle
-      // let wanderAngle = this.vel.heading() + this.wanderTheta;
-      // // on calcule les coordonnées du point vert
-      // let pointSurCercle = createVector(this.wanderRadius * cos(wanderAngle), this.wanderRadius * sin(wanderAngle));
-      // // on ajoute la position du vaisseau
-      // pointSurCercle.add(centreCercleDevant);
-  
-      // // on dessine le vecteur desiredSpeed qui va du vaisseau au point vert
-      // let desiredSpeed = p5.Vector.sub(pointSurCercle, this.pos);
-  
-  
-      // // On a donc la vitesse désirée que l'on cherche qui est le vecteur
-      // // allant du vaisseau au cercle vert. On le calcule :
-      // // ci-dessous, steer c'est la desiredSpeed directement !
-      // // Voir l'article de Craig Reynolds, Daniel Shiffman s'est trompé
-      // // dans sa vidéo, on ne calcule pas la formule classique
-      // // force = desiredSpeed - vitesseCourante, mais ici on a directement
-      // // force = desiredSpeed
-      // let force = p5.Vector.sub(desiredSpeed, this.vel);
-      // force.setMag(this.maxForce);
-  
-      // // On déplace le point vert sur le cerlcle (en radians)
-      // this.wanderTheta += random(-this.displaceRange, this.displaceRange);
-  
-      // return force;
     }
     
-
-    // edges() {
-    //   if (this.pos.x > width + this.r) {
-    //     this.pos.x = -this.r;
-    //   } else if (this.pos.x < -this.r) {
-    //     this.pos.x = width + this.r;
-    //   }
-    //   if (this.pos.y > height + this.r) {
-    //     this.pos.y = -this.r;
-    //   } else if (this.pos.y < -this.r) {
-    //     this.pos.y = height + this.r;
-    //   }
+    // flock(boids) {
+    //   let alignment = this.align(boids);
+    //   let cohesion = this.cohesion(boids);
+    //   let separation = this.separation(boids);
+    //   let boundaries = this.boundaries(0, 0, width, height, 25);
+    //   //let boundaries = this.boundaries(100, 200, 800, 400, 25);
+  
+    //   alignment.mult(this.alignWeight);
+    //   cohesion.mult(this.cohesionWeight);
+    //   separation.mult(this.separationWeight);
+    //   boundaries.mult(this.boundariesWeight);
+  
+    //   this.applyForce(alignment);
+    //   this.applyForce(cohesion);
+    //   this.applyForce(separation);
+    //   this.applyForce(boundaries);
     // }
-  }
+  
+    // align(boids) {
+    //   let perceptionRadius = this.perceptionRadius;
+  
+    //   let steering = createVector();
+    //   let total = 0;
+    //   for (let other of boids) {
+    //     let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+    //     if (other != this && d < perceptionRadius) {
+    //       steering.add(other.vel);
+    //       total++;
+    //     }
+    //   }
+    //   if (total > 0) {
+    //     steering.div(total);
+    //     steering.setMag(this.maxSpeed);
+    //     steering.sub(this.vel);
+    //     steering.limit(this.maxForce);
+    //   }
+    //   return steering;
+    // }
+  
+    // separation(boids) {
+    //   let perceptionRadius = this.perceptionRadius;
+  
+    //   let steering = createVector();
+    //   let total = 0;
+  
+    //   for (let other of boids) {
+    //     let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+    //     if (other != this && d < perceptionRadius) {
+    //       let diff = p5.Vector.sub(this.pos, other.pos);
+    //       diff.div(d * d);
+    //       steering.add(diff);
+    //       total++;
+    //     }
+    //   }
+    //   if (total > 0) {
+    //     steering.div(total);
+    //     steering.setMag(this.maxSpeed);
+    //     steering.sub(this.vel);
+    //     steering.limit(this.maxForce);
+    //   }
+    //   return steering;
+    // }
+  
+    // cohesion(boids) {
+    //   let perceptionRadius = 2*this.perceptionRadius;
+  
+    //   let steering = createVector();
+    //   let total = 0;
+  
+    //   for (let other of boids) {
+    //     let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+    //     if (other != this && d < perceptionRadius) {
+    //       steering.add(other.pos);
+    //       total++;
+    //     }
+    //   }
+    //   if (total > 0) {
+    //     steering.div(total);
+  
+    //     steering.sub(this.pos);
+    //     steering.setMag(this.maxSpeed);
+    //     steering.sub(this.vel);
+    //     steering.limit(this.maxForce);
+    //   }
+    //   return steering;
+    // }
+
+    edges() {
+
+      let w = this.enemySprite.width / 2 * this.scale;
+      let h = this.enemySprite.height / 2 * this.scale;
+
+      if (this.pos.y >= height - h) {
+        this.pos.y = height - h;
+        this.vel.y *= -0.8;
+      } else if (this.pos.y <= h) {
+        this.pos.y = h;
+        this.vel.y *= -0.8;
+      }
+  
+      if (this.pos.x >= width - w) {
+        this.pos.x = width - w;
+        this.vel.x *= -0.8;
+      } else if (this.pos.x <= w) {
+        this.pos.x = w;
+        this.vel.x *= -0.8;
+      }
+    }
+}
   
