@@ -7,6 +7,7 @@ Un jeu de tir simple créé avec p5.js pour un projet scolaire. L'objectif est d
 - **Objectif :** Tuer autant d'ennemis que possible tout en restant en vie. Votre santé diminuera si des ennemis vous touchent, alors gardez un œil sur votre barre de santé.
 - **Contrôles :**
   - **Souris :** Cliquez pour tirer des balles vers la position de la souris.
+  - **Mouvement :** Controle classique avec WASD.
 - **Mécaniques du jeu :**
   - Les ennemis apparaissent aléatoirement et poursuivent le joueur lorsqu'ils sont à une certaine distance.
   - Des power-ups peuvent apparaître pour donner des avantages au joueur.
