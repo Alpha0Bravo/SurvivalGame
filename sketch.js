@@ -70,7 +70,7 @@ function draw() {
 
   let x = random(canvasWidth);
   let y = random(canvasHeight);
-  if(random(1) < 0.004 + 0.0005*enemiesKilled){
+  if(random(1) < 0.04 + 0.0005*enemiesKilled){
     do {
       x = random(canvasWidth);
       y = random(canvasHeight);
@@ -101,9 +101,9 @@ function draw() {
   }
   for (let i = enemies.length - 1; i >= 0; i--) {
     enemies[i].edges();
-    if(player.isHit(enemies[i])){
-      player.hp -= 0.2 + 0.05 *enemiesKilled;
-    }
+    // if(player.isHit(enemies[i])){
+    //   player.hp -= 0.2 + 0.05 *enemiesKilled;
+    // }
     if (dist(player.pos.x, player.pos.y, enemies[i].pos.x, enemies[i].pos.y) < enemies[i].perceptionRadius){
         let steering = enemies[i].pursue(player);
         enemies[i].applyForce(steering);
@@ -111,6 +111,7 @@ function draw() {
     }
     else 
       enemies[i].wander();
+      enemies[i].flock(enemies);
     
     enemies[i].update();
     enemies[i].show();

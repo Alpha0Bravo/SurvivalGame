@@ -10,13 +10,17 @@ class Enemy {
       // vitesse maximale du véhicule
       this.maxSpeed = 2 + enemiesKilled * 0.02;
       // force maximale appliquée au véhicule
-      this.maxForce = 2;
+      this.maxForce = 0.6;
       // rayon du véhicule
       this.r = 16;
       this.perceptionRadius = 180;
       this.wanderTheta = PI / 2;
       this.scale = 2;
       this.fleeModifier = 5;
+      this.alignWeight = 0.5;
+
+      this.cohesionWeight = 0.8;
+      this.separationWeight = 1;
     }
   
     applyBehaviors(target) {
@@ -125,92 +129,89 @@ class Enemy {
       this.wanderTheta += random(-displaceRange, displaceRange);
     }
     
-    // flock(boids) {
-    //   let alignment = this.align(boids);
-    //   let cohesion = this.cohesion(boids);
-    //   let separation = this.separation(boids);
-    //   let boundaries = this.boundaries(0, 0, width, height, 25);
-    //   //let boundaries = this.boundaries(100, 200, 800, 400, 25);
+    flock(enemies) {
+      let alignment = this.align(enemies);
+      let cohesion = this.cohesion(enemies);
+      let separation = this.separation(enemies);
+
   
-    //   alignment.mult(this.alignWeight);
-    //   cohesion.mult(this.cohesionWeight);
-    //   separation.mult(this.separationWeight);
-    //   boundaries.mult(this.boundariesWeight);
+      alignment.mult(this.alignWeight);
+      cohesion.mult(this.cohesionWeight);
+      separation.mult(this.separationWeight);
   
-    //   this.applyForce(alignment);
-    //   this.applyForce(cohesion);
-    //   this.applyForce(separation);
-    //   this.applyForce(boundaries);
-    // }
+      this.applyForce(alignment);
+      this.applyForce(cohesion);
+      this.applyForce(separation);
+    }
   
-    // align(boids) {
-    //   let perceptionRadius = this.perceptionRadius;
+    align(enemies) {
+      let perceptionRadius = 50 + floor(enemiesKilled*0.7);
   
-    //   let steering = createVector();
-    //   let total = 0;
-    //   for (let other of boids) {
-    //     let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
-    //     if (other != this && d < perceptionRadius) {
-    //       steering.add(other.vel);
-    //       total++;
-    //     }
-    //   }
-    //   if (total > 0) {
-    //     steering.div(total);
-    //     steering.setMag(this.maxSpeed);
-    //     steering.sub(this.vel);
-    //     steering.limit(this.maxForce);
-    //   }
-    //   return steering;
-    // }
+      let steering = createVector();
+      let total = 0;
+      for (let other of enemies) {
+        let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+        if (other != this && d < perceptionRadius) {
+          steering.add(other.vel);
+          total++;
+        }
+      }
+      if (total > 0) {
+        steering.div(total);
+        steering.setMag(this.maxSpeed);
+        steering.sub(this.vel);
+        steering.limit(this.maxForce);
+      }
+      return steering;
+    }
   
-    // separation(boids) {
-    //   let perceptionRadius = this.perceptionRadius;
+    separation(enemies) {
+      let perceptionRadius = 50 + floor(enemiesKilled*0.7);
   
-    //   let steering = createVector();
-    //   let total = 0;
+      let steering = createVector();
+      let total = 0;
   
-    //   for (let other of boids) {
-    //     let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
-    //     if (other != this && d < perceptionRadius) {
-    //       let diff = p5.Vector.sub(this.pos, other.pos);
-    //       diff.div(d * d);
-    //       steering.add(diff);
-    //       total++;
-    //     }
-    //   }
-    //   if (total > 0) {
-    //     steering.div(total);
-    //     steering.setMag(this.maxSpeed);
-    //     steering.sub(this.vel);
-    //     steering.limit(this.maxForce);
-    //   }
-    //   return steering;
-    // }
+      for (let other of enemies) {
+        let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+        if (other != this && d < perceptionRadius) {
+          let diff = p5.Vector.sub(this.pos, other.pos);
+          diff.div(d * d);
+          steering.add(diff);
+          total++;
+        }
+      }
+      if (total > 0) {
+        steering.div(total);
+        steering.setMag(this.maxSpeed);
+        steering.sub(this.vel);
+        steering.limit(this.maxForce);
+      }
+      return steering;
+    }
   
-    // cohesion(boids) {
-    //   let perceptionRadius = 2*this.perceptionRadius;
+    cohesion(enemies) {
+      let perceptionRadius = 2* 50 + floor(enemiesKilled*0.7);
   
-    //   let steering = createVector();
-    //   let total = 0;
+      let steering = createVector();
+      let total = 0;
   
-    //   for (let other of boids) {
-    //     let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
-    //     if (other != this && d < perceptionRadius) {
-    //       steering.add(other.pos);
-    //       total++;
-    //     }
-    //   }
-    //   if (total > 0) {
-    //     steering.div(total);
+      for (let other of enemies) {
+        let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+        if (other != this && d < perceptionRadius) {
+          steering.add(other.pos);
+          total++;
+        }
+      }
+      if (total > 0) {
+        steering.div(total);
   
-    //     steering.sub(this.pos);
-    //     steering.setMag(this.maxSpeed);
-    //     steering.sub(this.vel);
-    //     steering.limit(this.maxForce);
-    //   }
-    //   return steering;
-    // }
+        steering.sub(this.pos);
+        steering.setMag(this.maxSpeed);
+        steering.sub(this.vel);
+        steering.limit(this.maxForce);
+      }
+      return steering;
+    }
 
     edges() {
 
