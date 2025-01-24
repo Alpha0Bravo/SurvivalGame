@@ -17,9 +17,9 @@ let bulletSpeed = 1.6;
 
 function preload() {
   // player sprite sheet is loaded
-  playerSpriteSheet = loadImage('assets/playerSpriteSheet.png');
-  enemySprite = loadImage('assets/badGuy.png');
-  powerUpImage = loadImage('assets/power.png');
+  playerSpriteSheet = loadImage('playerSpriteSheet.png');
+  enemySprite = loadImage('badGuy.png');
+  powerUpImage = loadImage('power.png');
 }
 
 function setup() {
