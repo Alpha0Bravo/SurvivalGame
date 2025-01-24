@@ -27,7 +27,8 @@ class Powerup  {
         if(this.type === 0)
             fireRate++;
           else if (this.type === 1)
-            bulletSpeed += enemiesKilled * 0.2;
+            if(bulletSpeed <=6)
+               bulletSpeed += enemiesKilled * 0.2;
           else if (this.type === 2)
             player.ms = enemiesKilled * 0.15;
           else if (this.type === 3){

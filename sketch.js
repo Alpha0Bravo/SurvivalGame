@@ -13,19 +13,13 @@ let fireRate = 1.1;
 let cd = 90;     // cooldown
 let refresh = 60;
 let enemiesKilled = 0;
-let bulletSpeed = 1.6;
+let bulletSpeed = 1.05;
 
 function preload() {
   // player sprite sheet is loaded
-<<<<<<< HEAD
   playerSpriteSheet = loadImage('playerSpriteSheet.png');
   enemySprite = loadImage('badGuy.png');
   powerUpImage = loadImage('power.png');
-=======
-  playerSpriteSheet = loadImage('assets/playerSpriteSheet.png');
-  enemySprite = loadImage('assets/badGuy.png');
-  powerUpImage = loadImage('/assets/power.png');
->>>>>>> cfd6db50b0102154cad372a63e1c9d02de221c82
 }
 
 function setup() {
@@ -88,7 +82,7 @@ function draw() {
   }
 
   let r = random(1)
-  if(r < -0.1 + 0.01*enemiesKilled && r > 0){
+  if(r < -0.019 + 0.0005*enemiesKilled && r > 0){
     x = random(canvasWidth);
     y = random(canvasHeight);
     spawnPoint = createVector(x,y);
@@ -107,9 +101,9 @@ function draw() {
   }
   for (let i = enemies.length - 1; i >= 0; i--) {
     enemies[i].edges();
-    // if(player.isHit(enemies[i])){
-    //   player.hp -= 0.2 + 0.05 *enemiesKilled;
-    // }
+     if(player.isHit(enemies[i])){
+       player.hp -= 0.2 + 0.03 *enemiesKilled;
+     }
     if (dist(player.pos.x, player.pos.y, enemies[i].pos.x, enemies[i].pos.y) < enemies[i].perceptionRadius){
         let steering = enemies[i].pursue(player);
         enemies[i].applyForce(steering);
